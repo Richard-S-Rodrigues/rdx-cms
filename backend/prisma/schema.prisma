@@ -17,3 +17,12 @@ model User {
   @@map("users")
 
 }
+
+model ResetPasswordToken {
+  id          String @id @default(uuid())
+  token       String
+  user_id     String
+  created_at  DateTime @default(now())
+
+  @@map("resetPasswordTokens")
+}
