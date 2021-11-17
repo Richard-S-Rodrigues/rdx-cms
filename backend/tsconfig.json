@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
-    "target": "es5",                                  
+    "target": "es5",
 
-    "module": "commonjs",                              
+    "module": "commonjs",
 
-    "esModuleInterop": true,                            
-    "forceConsistentCasingInFileNames": true,            
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
 
-    "strict": false,                                     
-    "skipLibCheck": true                                
-  }
+    "strict": false,
+    "skipLibCheck": true
+  },
+  "typeRoots": ["src/@types", "node_modules/@types"]
 }

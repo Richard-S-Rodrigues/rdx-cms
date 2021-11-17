@@ -8,21 +8,49 @@ datasource db {
 }
 
 model User {
-  id           String @id @default(uuid())
-  first_name   String
-  last_name    String
-  email        String
-  password     String
+  id            String @id @default(uuid())
+  first_name    String
+  last_name     String
+  email         String @unique
+  password      String
+
+  projects Project[]
 
   @@map("users")
 
 }
 
 model ResetPasswordToken {
-  id          String @id @default(uuid())
-  token       String
-  user_id     String
-  created_at  DateTime @default(now())
+  id            String @id @default(uuid())
+  token         String
+  user_id       String
+  created_at    DateTime @default(now())
 
   @@map("resetPasswordTokens")
 }
+
+model Project {
+  id            String @id @default(uuid())
+  name          String 
+  
+  creator User @relation(fields: [creator_id], references: [id])
+
+  creator_id    String @unique
+  members ProjectMember[]
+  created_at    DateTime @default(now())
+
+  @@map("projects")
+}
+
+model ProjectMember {
+  id            String @id @default(uuid())
+  project Project @relation(fields: [project_id], references: [id])
+  project_id    String
+  member_id     String 
+  is_creator    Boolean @default(false)
+  role          String
+  created_at    DateTime @default(now())
+
+  @@map("projectMembers")
+}
+

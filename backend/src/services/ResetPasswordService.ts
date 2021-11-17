@@ -1,6 +1,6 @@
 import prismaClient from "../prisma";
 import { sign } from "jsonwebtoken";
-import { compare, hash } from "bcrypt";
+import { hash } from "bcrypt";
 import { sendEmail } from "../utils/resetPassword/sendEmail";
 
 import { JWT_SECRET } from "../config";
