@@ -35,7 +35,7 @@ model Project {
   
   creator User @relation(fields: [creator_id], references: [id])
 
-  creator_id    String @unique
+  creator_id    String 
   members ProjectMember[]
   created_at    DateTime @default(now())
 
