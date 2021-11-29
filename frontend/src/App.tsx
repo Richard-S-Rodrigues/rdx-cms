@@ -1,8 +1,8 @@
-import SignUp from "./components";
+import SignIn from "./components/SignIn";
 
 const App = () => (
   <div className="">
-    <SignUp />
+    <SignIn />
   </div>
 );
 
