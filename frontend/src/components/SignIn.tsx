@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const SignIn = () => (
   <div className="min-h-full flex items-center justify-center my-0 mx-auto py-12 px-4 sm:px-6 lg:px-8">
     <main className="max-w-xl w-full p-5 space-y-8 ">
@@ -21,15 +23,18 @@ const SignIn = () => (
           </button>
           <small className="flex mt-5 text-sm">
             Forgot your password?
-            <a href="/" className="text-green hover:text-darkerGreen ml-2">
+            <Link to="/" className="text-green hover:text-darkerGreen ml-2">
               Reset password
-            </a>
+            </Link>
           </small>
           <small className="flex mt-5 text-sm">
             Not registered?
-            <a href="/" className="text-green hover:text-darkerGreen ml-2">
+            <Link
+              to="/signup"
+              className="text-green hover:text-darkerGreen ml-2"
+            >
               Sign up
-            </a>
+            </Link>
           </small>
         </div>
       </form>

@@ -1,8 +1,8 @@
-import SignIn from "./components/SignIn";
+import Router from "./Router";
 
 const App = () => (
-  <div className="">
-    <SignIn />
+  <div>
+    <Router />
   </div>
 );
 

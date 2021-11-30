@@ -32,7 +32,10 @@
     "quotes": ["warn", "double"],
     "import/extensions": "off",
     "comma-dangle": ["error", "never"],
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "import/prefer-default-export": "off",
+    "no-use-before-define": "off",
+    "operator-linebreak": "off"
   },
   "settings": {
     "import/resolver": {
