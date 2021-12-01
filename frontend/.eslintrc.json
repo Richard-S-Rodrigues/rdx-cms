@@ -35,7 +35,8 @@
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "import/prefer-default-export": "off",
     "no-use-before-define": "off",
-    "operator-linebreak": "off"
+    "operator-linebreak": "off",
+    "no-useless-return": "off"
   },
   "settings": {
     "import/resolver": {

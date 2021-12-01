@@ -26,7 +26,7 @@ const sendEmail = async ({
   email,
   subject,
   payload,
-  template,
+  template
 }: ISendEmailProps) => {
   try {
     const transporter = nodemailer.createTransport({
@@ -35,8 +35,8 @@ const sendEmail = async ({
       secure: true,
       auth: {
         user: "richardsouzarodrigues555@gmail.com",
-        pass: EMAIL_PASSWORD,
-      },
+        pass: EMAIL_PASSWORD
+      }
     });
 
     const templateSource = fs.readFileSync(join(__dirname, template), "utf8");
@@ -46,7 +46,7 @@ const sendEmail = async ({
       from: "RdxCMS <richardsouzarodrigues555@gmail.com>",
       to: email,
       subject,
-      html: compiledTemplate(payload),
+      html: compiledTemplate(payload)
     };
 
     transporter.sendMail(mailOptions, function (err, info) {

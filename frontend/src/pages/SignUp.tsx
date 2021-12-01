@@ -1,7 +1,7 @@
 import { SyntheticEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../services/api";
-import ErrorBlock from "./ErrorBlock";
+import ErrorBlock from "../components/ErrorBlock";
 
 interface IUserData {
   first_name: string;
@@ -9,6 +9,7 @@ interface IUserData {
   email: string;
   password: string;
 }
+
 const SignUp = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -59,10 +60,7 @@ const SignUp = () => {
       <main className="max-w-xl w-full p-5 space-y-8 ">
         <h1 className="h1">Sign up for RdxCMS</h1>
         {isError && (
-          <ErrorBlock
-            message={errorMessage}
-            setIsError={() => setIsError(false)}
-          />
+          <ErrorBlock message={errorMessage} setIsError={setIsError} />
         )}
 
         <form onSubmit={onSubmitHandler}>
