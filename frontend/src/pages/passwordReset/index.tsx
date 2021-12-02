@@ -7,7 +7,6 @@ import ErrorBlock from "../../components/ErrorBlock";
 const PasswordReset = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
-  const [isPasswordResetValid, setIsPasswordResetValid] = useState(false);
   const [isPasswordChanged, setIsPasswordChanged] = useState(false);
 
   const [isError, setIsError] = useState(false);
@@ -27,16 +26,7 @@ const PasswordReset = () => {
       return;
     }
 
-    validateToken(token);
-
     await changePassword(id, token, newPassword);
-  };
-
-  const validateToken = (passwordResetToken: string) => {
-    if (!passwordResetToken.trim()) {
-      setIsPasswordResetValid(false);
-      return;
-    }
   };
 
   const changePassword = async (
@@ -45,15 +35,24 @@ const PasswordReset = () => {
     password: string
   ) => {
     try {
-      const response = await api.post("/passwordReset", {
+      if (!passwordResetToken.trim()) {
+        throw new Error("Token not provided!");
+      }
+
+      await api.post("/passwordReset", {
         userId,
         token: passwordResetToken,
         password
       });
-      console.log(response);
       setIsPasswordChanged(true);
     } catch (err: any) {
-      console.error(err.response.data.error);
+      if (err.response) {
+        setErrorMessage(err.response.data.error);
+      } else {
+        setErrorMessage(err.message);
+      }
+
+      setIsError(true);
     }
   };
 

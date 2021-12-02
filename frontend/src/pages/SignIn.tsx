@@ -29,10 +29,8 @@ const SignIn = () => {
       console.log(response);
     } catch (err: any) {
       if (err.response) {
-        console.log(err.response.data.error);
         setErrorMessage(err.response.data.error);
       } else {
-        console.log("Error", err.message);
         setErrorMessage("Something went wrong");
       }
       setIsError(true);

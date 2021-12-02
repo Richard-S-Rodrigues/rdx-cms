@@ -36,7 +36,8 @@
     "import/prefer-default-export": "off",
     "no-use-before-define": "off",
     "operator-linebreak": "off",
-    "no-useless-return": "off"
+    "no-useless-return": "off",
+    "no-undef": "off"
   },
   "settings": {
     "import/resolver": {

@@ -1,22 +1,29 @@
+import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import PasswordReset from "./pages/passwordReset";
 import SendPasswordResetEmail from "./pages/passwordReset/SendPasswordResetEmail";
 
-const Router = () => (
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<SignUp />} />
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/signin" element={<SignIn />} />
-      <Route path="/passwordReset" element={<PasswordReset />} />
-      <Route
-        path="/passwordReset/sendEmail"
-        element={<SendPasswordResetEmail />}
-      />
-    </Routes>
-  </BrowserRouter>
-);
+const Router = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/passwordReset" element={<PasswordReset />} />
+        <Route
+          path="/passwordReset/sendEmail"
+          element={<SendPasswordResetEmail />}
+        />
+
+        <Route path="/" element={isAuthenticated ? <Home /> : <SignIn />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
 export default Router;
