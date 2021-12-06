@@ -13,8 +13,8 @@ class AuthenticateUserService {
   async execute({ email, password }: IData) {
     const user = await prismaClient.user.findFirst({
       where: {
-        email,
-      },
+        email
+      }
     });
 
     if (!user) {
@@ -31,14 +31,14 @@ class AuthenticateUserService {
       {
         user: {
           id: user.id,
-          email: user.email,
-        },
+          email: user.email
+        }
       },
       JWT_SECRET,
       { expiresIn: "1d" }
     );
 
-    delete user.password
+    delete user.password;
 
     return { token, user };
   }

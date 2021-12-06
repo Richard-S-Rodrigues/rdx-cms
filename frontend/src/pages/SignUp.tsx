@@ -1,5 +1,5 @@
 import { SyntheticEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { api } from "../services/api";
 import ErrorBlock from "../components/ErrorBlock";
 
@@ -18,6 +18,8 @@ const SignUp = () => {
 
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const navigate = useNavigate();
 
   const onSubmitHandler = async (event: SyntheticEvent) => {
     event.preventDefault();
@@ -43,10 +45,12 @@ const SignUp = () => {
   const createUser = async (userData: IUserData) => {
     try {
       const response = await api.post("/signout", userData);
-      console.log(response);
+
+      if (response.status === 201) {
+        navigate("/signin");
+      }
     } catch (err: any) {
       if (err.response) {
-        console.log(err.response.data.error);
         setErrorMessage(err.response.data.error);
       } else {
         console.log("error", err.message);

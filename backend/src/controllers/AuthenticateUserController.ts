@@ -9,10 +9,17 @@ class AuthenticateUserController {
     try {
       const result = await service.execute(requestData);
 
+      // Set Access Token To Browser Cookies
+      // SET SECURE: TRUE IN PRODUCTION
+      response.cookie("jwt", result.token, {
+        httpOnly: true,
+        sameSite: true
+      });
+
       return response.status(200).json(result);
     } catch (err) {
       return response.status(401).json({
-        error: err.message,
+        error: err.message
       });
     }
   }

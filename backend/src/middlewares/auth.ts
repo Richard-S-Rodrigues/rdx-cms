@@ -11,25 +11,23 @@ interface IPayload {
 }
 
 export function auth(request: Request, response: Response, next: NextFunction) {
-  const authToken = request.headers.authorization;
+  const authToken = request.cookies.jwt;
 
   if (!authToken) {
     return response.status(401).json({
-      errorCode: "token.invalid",
+      errorCode: "token.invalid"
     });
   }
 
-  const [, token] = authToken.split(" ");
-
   try {
-    const { user } = verify(token, JWT_SECRET) as IPayload;
+    const { user } = verify(authToken, JWT_SECRET) as IPayload;
 
     request.user_id = user.id;
 
     return next();
   } catch (err) {
     return response.status(401).json({
-      errorCode: "token.expired",
+      errorCode: "token.expired"
     });
   }
 }

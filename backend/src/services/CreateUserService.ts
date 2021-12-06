@@ -12,8 +12,8 @@ class CreateUserService {
   async execute({ first_name, last_name, email, password }: IData) {
     let user = await prismaClient.user.findFirst({
       where: {
-        email,
-      },
+        email
+      }
     });
 
     if (user) {
@@ -27,10 +27,12 @@ class CreateUserService {
         first_name,
         last_name,
         email,
-        password: passwordHashed,
-      },
+        password: passwordHashed
+      }
     });
 
+    // Returning withou password field
+    delete user.password;
     return user;
   }
 }

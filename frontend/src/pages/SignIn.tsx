@@ -1,6 +1,7 @@
-import { SyntheticEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { SyntheticEvent, useContext, useState } from "react";
+import { Link, useNavigate, Navigate } from "react-router-dom";
 import { api } from "../services/api";
+import { authenticationContext } from "../contexts/AuthenticationContext";
 import ErrorBlock from "../components/ErrorBlock";
 
 interface IUserData {
@@ -9,11 +10,14 @@ interface IUserData {
 }
 
 const SignIn = () => {
+  const { isAuthenticated } = useContext(authenticationContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const navigate = useNavigate();
 
   const onSubmitHandler = async (event: SyntheticEvent) => {
     event.preventDefault();
@@ -26,7 +30,12 @@ const SignIn = () => {
   const loginUser = async (userData: IUserData) => {
     try {
       const response = await api.post("/signin", userData);
-      console.log(response);
+
+      if (response.status === 200) {
+        localStorage.setItem("rdxcms:user_info", JSON.stringify(response.data));
+        navigate("/");
+        window.location.reload();
+      }
     } catch (err: any) {
       if (err.response) {
         setErrorMessage(err.response.data.error);
@@ -37,7 +46,9 @@ const SignIn = () => {
     }
   };
 
-  return (
+  return isAuthenticated ? (
+    <Navigate to="/" />
+  ) : (
     <div className="min-h-full flex items-center justify-center my-0 mx-auto py-12 px-4 sm:px-6 lg:px-8">
       <main className="max-w-xl w-full p-5 space-y-8 ">
         <h1 className="h1">Login to RdxCMS</h1>
