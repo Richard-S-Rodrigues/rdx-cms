@@ -31,7 +31,7 @@ const SendPasswordResetEmail = () => {
       <main className="max-w-xl w-full p-5 space-y-8 ">
         {!isEmailSent ? (
           <>
-            <h1 className="h1">
+            <h1 className="h1 text-center">
               Provide your email for password reset instructions
             </h1>
             <form onSubmit={onSubmitHandler}>

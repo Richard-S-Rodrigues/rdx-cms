@@ -62,7 +62,7 @@ const SignUp = () => {
   return (
     <div className="min-h-full flex items-center justify-center my-0 mx-auto py-12 px-4 sm:px-6 lg:px-8">
       <main className="max-w-xl w-full p-5 space-y-8 ">
-        <h1 className="h1">Sign up for RdxCMS</h1>
+        <h1 className="h1 text-center">Sign up for RdxCMS</h1>
         {isError && (
           <ErrorBlock message={errorMessage} setIsError={setIsError} />
         )}

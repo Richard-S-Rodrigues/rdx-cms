@@ -51,7 +51,7 @@ const SignIn = () => {
   ) : (
     <div className="min-h-full flex items-center justify-center my-0 mx-auto py-12 px-4 sm:px-6 lg:px-8">
       <main className="max-w-xl w-full p-5 space-y-8 ">
-        <h1 className="h1">Login to RdxCMS</h1>
+        <h1 className="h1 text-center">Login to RdxCMS</h1>
         {isError && (
           <ErrorBlock message={errorMessage} setIsError={setIsError} />
         )}
