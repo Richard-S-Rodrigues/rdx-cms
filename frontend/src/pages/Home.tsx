@@ -2,7 +2,7 @@ import SideBar from "../components/Sidebar";
 import Projects from "../components/Projects";
 
 const Home = () => (
-  <div className="flex">
+  <div className="block sm:flex">
     <SideBar />
     <Projects />
   </div>

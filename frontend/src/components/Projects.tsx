@@ -1,15 +1,15 @@
 import { FiSearch } from "react-icons/fi";
 
 const Projects = () => (
-  <div className="min-h-full flex pt-5 my-0 mx-auto">
-    <main className="block w-full space-y-8 ">
+  <div className="w-full min-h-full flex p-5 my-0 ">
+    <main className="block w-full space-y-8 mx-auto sm:w-4/5">
       <section>
         <h1 className="h1">
           Projects
           <div className="bg-blue w-10 h-3 rounded-md" />
         </h1>
-        <div className="flex h-10 mt-12">
-          <span className="flex justify-between">
+        <div className="block mt-12 sm:flex sm:h-10">
+          <span className="w-full flex justify-between">
             <input
               type="text"
               placeholder="Search..."
@@ -21,7 +21,7 @@ const Projects = () => (
           </span>
           <button
             type="button"
-            className="btn w-44 ml-2 text-left text-xs font-medium"
+            className="btn w-full mt-2 text-left text-xs font-medium sm:w-44 sm:mt-0 sm:ml-2"
           >
             + NEW PROJECT
           </button>
