@@ -35,6 +35,39 @@ const Projects = () => (
           <li className="border p-4 h2 mt-4 hover:bg-gray-200 hover:text-green delay-150 duration-300 cursor-pointer">
             Project 2
           </li>
+          <li className="border p-4 h2 mt-4 hover:bg-gray-200 hover:text-green delay-150 duration-300 cursor-pointer">
+            Project 3
+          </li>
+          <li className="border p-4 h2 mt-4 hover:bg-gray-200 hover:text-green delay-150 duration-300 cursor-pointer">
+            Project 4
+          </li>
+          <li className="border p-4 h2 mt-4 hover:bg-gray-200 hover:text-green delay-150 duration-300 cursor-pointer">
+            Project 5
+          </li>
+          <li className="border p-4 h2 mt-4 hover:bg-gray-200 hover:text-green delay-150 duration-300 cursor-pointer">
+            Project 6
+          </li>
+          <li className="border p-4 h2 mt-4 hover:bg-gray-200 hover:text-green delay-150 duration-300 cursor-pointer">
+            Project 7
+          </li>
+          <li className="border p-4 h2 mt-4 hover:bg-gray-200 hover:text-green delay-150 duration-300 cursor-pointer">
+            Project 8
+          </li>
+          <li className="border p-4 h2 mt-4 hover:bg-gray-200 hover:text-green delay-150 duration-300 cursor-pointer">
+            Project 9
+          </li>
+          <li className="border p-4 h2 mt-4 hover:bg-gray-200 hover:text-green delay-150 duration-300 cursor-pointer">
+            Project 10
+          </li>
+          <li className="border p-4 h2 mt-4 hover:bg-gray-200 hover:text-green delay-150 duration-300 cursor-pointer">
+            Project 11
+          </li>
+          <li className="border p-4 h2 mt-4 hover:bg-gray-200 hover:text-green delay-150 duration-300 cursor-pointer">
+            Project 12
+          </li>
+          <li className="border p-4 h2 mt-4 hover:bg-gray-200 hover:text-green delay-150 duration-300 cursor-pointer">
+            Project 13
+          </li>
         </ul>
       </section>
     </main>

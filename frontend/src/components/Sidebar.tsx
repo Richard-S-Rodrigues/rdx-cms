@@ -11,13 +11,13 @@ const SideBar = () => {
   return isMenu ? (
     <Menu setMenu={setIsMenu} />
   ) : (
-    <aside className="p-5 w-full bg-gray-100 rounded-r-xl sm:h-full sm:max-w-min">
+    <aside className="p-5 w-full bg-gray-100 rounded-r-xl sm:h-auto sm:w-72">
       <main className="w-full flex justify-between sm:block">
-        <section className="">
+        <section>
           <h1 className="h1 text-blue mb-10">RdxCMS</h1>
           <div className="flex items-center mt-4">
-            <FaUserAlt className="w-5 h-5 bg-black text-white rounded-full sm:w-7 sm:h-7" />
-            <span className="ml-2 text-xs">Richard Rodrigues</span>
+            <FaUserAlt className="w-10 h-10 bg-black text-white rounded-full" />
+            <span className="ml-2">Richard Rodrigues</span>
           </div>
         </section>
         <section className="mt-1">
@@ -35,7 +35,7 @@ const SideBar = () => {
               <li>
                 <Link
                   to="/"
-                  className="flex items-center mt-4 hover:text-green delay-150 duration-300"
+                  className="flex items-center mt-8 hover:text-green delay-150 duration-300"
                 >
                   <FaProjectDiagram className="text-green w-5 h-5" />
                   <span className="ml-2">Projects</span>
@@ -44,7 +44,7 @@ const SideBar = () => {
               <li>
                 <Link
                   to="/"
-                  className="flex items-center mt-4 hover:text-green delay-150 duration-300"
+                  className="flex items-center mt-8 hover:text-green delay-150 duration-300"
                 >
                   <FaUserAlt className="text-green w-5 h-5" />
                   <span className="ml-2">My account</span>
@@ -53,7 +53,7 @@ const SideBar = () => {
               <li>
                 <Link
                   to="/"
-                  className="flex items-center mt-4 hover:text-green delay-150 duration-300"
+                  className="flex items-center mt-8 hover:text-green delay-150 duration-300"
                 >
                   <FiLogOut className="text-green w-5 h-5" />
                   <span className="ml-2">Log out</span>

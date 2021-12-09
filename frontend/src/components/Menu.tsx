@@ -8,15 +8,15 @@ interface IMenuProps {
 }
 
 const Menu = ({ setMenu }: IMenuProps) => (
-  <div className="absolute inset-0 z-10 overflow-hidden flex justify-center mx-auto bg-gray-100">
+  <div className="h-auto fixed inset-0 z-10 flex justify-center mx-auto bg-gray-100">
     <HiX
-      className="text-black w-5 h-5 absolute top-4 right-4 cursor-pointer"
+      className="text-black w-8 h-8 absolute top-4 right-4 cursor-pointer"
       onClick={() => setMenu(false)}
     />
-    <main className="mt-20">
+    <main className="mt-32">
       <nav>
         <ul>
-          <li className="mt-10">
+          <li className="mt-10 text-2xl">
             <Link
               to="/"
               className="flex items-center hover:text-green delay-150 duration-300"
@@ -25,7 +25,7 @@ const Menu = ({ setMenu }: IMenuProps) => (
               <span className="ml-2">Projects</span>
             </Link>
           </li>
-          <li className="mt-10">
+          <li className="mt-10 text-2xl">
             <Link
               to="/"
               className="flex items-center hover:text-green delay-150 duration-300"
@@ -34,7 +34,7 @@ const Menu = ({ setMenu }: IMenuProps) => (
               <span className="ml-2">My account</span>
             </Link>
           </li>
-          <li className="mt-10">
+          <li className="mt-10 text-2xl">
             <Link
               to="/"
               className="flex items-center hover:text-green delay-150 duration-300"
