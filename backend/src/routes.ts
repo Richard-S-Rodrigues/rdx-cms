@@ -6,6 +6,7 @@ import { CreateUserController } from "./controllers/CreateUserController";
 import { AuthenticateUserController } from "./controllers/AuthenticateUserController";
 import { RequestResetPasswordController } from "./controllers/RequestResetPasswordController";
 import { ResetPasswordController } from "./controllers/ResetPasswordController";
+import { CurrentSessionController } from "./controllers/CurrentSessionController";
 import { CreateProjectController } from "./controllers/CreateProjectController";
 import { RemoveProjectController } from "./controllers/RemoveProjectController";
 import { ListProjectsController } from "./controllers/ListProjectsController";
@@ -20,6 +21,7 @@ router.post(
   new RequestResetPasswordController().handle
 );
 router.post("/passwordReset", new ResetPasswordController().handle);
+router.get("/currentSession", auth, new CurrentSessionController().handle);
 
 router.post("/project/create", auth, new CreateProjectController().handle);
 router.post("/project/delete", auth, new RemoveProjectController().handle);
