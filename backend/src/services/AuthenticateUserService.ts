@@ -1,8 +1,5 @@
 import prismaClient from "../prisma";
 import { compare } from "bcrypt";
-import { sign } from "jsonwebtoken";
-
-import { JWT_SECRET } from "../config";
 
 interface IData {
   email: string;
@@ -27,20 +24,9 @@ class AuthenticateUserService {
       throw new Error("Invalid credentials");
     }
 
-    const token = sign(
-      {
-        user: {
-          id: user.id,
-          email: user.email
-        }
-      },
-      JWT_SECRET,
-      { expiresIn: "1d" }
-    );
-
     delete user.password;
 
-    return { token, user };
+    return { user };
   }
 }
 

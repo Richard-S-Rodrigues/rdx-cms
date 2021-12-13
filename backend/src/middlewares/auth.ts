@@ -4,14 +4,14 @@ import { verify } from "jsonwebtoken";
 import { JWT_SECRET } from "../config";
 
 interface IPayload {
-  user: {
-    email: string;
-    id: string;
-  };
+  email: string;
+  id: string;
+  first_name: string;
+  last_name: string;
 }
 
 export function auth(request: Request, response: Response, next: NextFunction) {
-  const authToken = request.cookies.jwt;
+  const authToken = request.session.jwt;
 
   if (!authToken) {
     return response.status(401).json({
@@ -20,7 +20,7 @@ export function auth(request: Request, response: Response, next: NextFunction) {
   }
 
   try {
-    const { user } = verify(authToken, JWT_SECRET) as IPayload;
+    const user = verify(authToken, JWT_SECRET) as IPayload;
 
     request.user_id = user.id;
 

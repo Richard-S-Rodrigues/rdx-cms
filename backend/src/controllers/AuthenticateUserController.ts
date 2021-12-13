@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
 import { AuthenticateUserService } from "../services/AuthenticateUserService";
+import { sign } from "jsonwebtoken";
+
+import { JWT_SECRET } from "../config";
 
 class AuthenticateUserController {
   async handle(request: Request, response: Response) {
@@ -9,12 +12,7 @@ class AuthenticateUserController {
     try {
       const result = await service.execute(requestData);
 
-      // Set Access Token To Browser Cookies
-      // SET SECURE: TRUE IN PRODUCTION
-      response.cookie("jwt", result.token, {
-        httpOnly: true,
-        sameSite: true
-      });
+      request.session.jwt = sign(result.user, JWT_SECRET);
 
       return response.status(200).json(result);
     } catch (err) {
