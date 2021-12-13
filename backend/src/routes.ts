@@ -14,6 +14,7 @@ import { auth } from "./middlewares/auth";
 
 router.post("/signout", new CreateUserController().handle);
 router.post("/signin", new AuthenticateUserController().handle);
+router.get("/logout", new AuthenticateUserController().logout);
 router.post(
   "/requestPasswordReset",
   new RequestResetPasswordController().handle

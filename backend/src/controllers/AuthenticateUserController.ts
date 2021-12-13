@@ -21,6 +21,11 @@ class AuthenticateUserController {
       });
     }
   }
+
+  logout(request: Request, response: Response) {
+    request.session = null;
+    response.send();
+  }
 }
 
 export { AuthenticateUserController };
