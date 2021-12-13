@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
+import { api } from "../services/api";
 
 interface IAuthenticationProvider {
   children: ReactNode;
@@ -15,18 +16,24 @@ export const authenticationContext = createContext(
 export const AuthenticationProvider = ({
   children
 }: IAuthenticationProvider) => {
-  const userInfo = JSON.parse(localStorage.getItem("rdxcms:user_info") || "{}");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!userInfo) {
-      setIsAuthenticated(false);
-    }
-    if (userInfo.token) {
-      setIsAuthenticated(true);
-    }
-    setIsLoading(false);
+    const checkAuth = async () => {
+      try {
+        const response = await api.get("/currentSession", {
+          withCredentials: true
+        });
+        if (response.status === 200) {
+          setIsAuthenticated(true);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+      setIsLoading(false);
+    };
+    checkAuth();
   }, []);
 
   const value = useMemo(

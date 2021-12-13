@@ -29,7 +29,9 @@ const SignIn = () => {
 
   const loginUser = async (userData: IUserData) => {
     try {
-      const response = await api.post("/signin", userData);
+      const response = await api.post("/signin", userData, {
+        withCredentials: true
+      });
 
       if (response.status === 200) {
         localStorage.setItem("rdxcms:user_info", JSON.stringify(response.data));

@@ -9,6 +9,8 @@ class CurrentSessionController {
     try {
       const result = await service.execute(user_id);
 
+      // Return without password
+      delete result.password;
       return response.status(200).json(result);
     } catch (err) {
       return response.status(401).json({

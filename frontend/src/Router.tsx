@@ -17,6 +17,7 @@ interface IPrivateRouteProps {
 
 const PrivateRoute = ({ children }: IPrivateRouteProps) => {
   const { isAuthenticated, isLoading } = useContext(authenticationContext);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
