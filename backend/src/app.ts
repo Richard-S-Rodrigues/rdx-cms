@@ -1,11 +1,13 @@
 import "dotenv/config";
 import express from "express";
+import "express-async-errors";
 import cookieSession from "cookie-session";
 import logger from "morgan";
 import cors from "cors";
 import { router } from "./routes";
 
 import { JWT_SECRET } from "./config";
+import { ErrorHandler } from "./middlewares/errorHandler";
 
 const app = express();
 
@@ -25,5 +27,7 @@ app.use(
 );
 
 app.use(router);
+
+app.use(ErrorHandler);
 
 app.listen(4000, () => console.log("Server running on port 4000"));

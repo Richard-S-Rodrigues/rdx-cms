@@ -7,15 +7,9 @@ class RemoveProjectController {
     const { project_id } = request.body;
     const service = new RemoveProjectService();
 
-    try {
-      const result = await service.execute(user_id, project_id);
+    const result = await service.execute(user_id, project_id);
 
-      return response.status(201).json(result);
-    } catch (err) {
-      return response.status(401).json({
-        error: err.message,
-      });
-    }
+    return response.status(201).json(result);
   }
 }
 

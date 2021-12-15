@@ -7,17 +7,10 @@ class CreateProjectController {
     const { user_id: creator_id } = request;
     const service = new CreateProjectService();
 
-    try {
-      const result = await service.execute(name, creator_id);
+    const result = await service.execute(name, creator_id);
 
-      return response.status(201).json(result)
-    } catch(err) {
-      return response.status(401).json({
-        error: err.message
-      })
-    }
-
+    return response.status(201).json(result);
   }
 }
 
-export { CreateProjectController }
+export { CreateProjectController };

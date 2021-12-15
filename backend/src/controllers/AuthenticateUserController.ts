@@ -9,17 +9,11 @@ class AuthenticateUserController {
     const requestData = request.body;
     const service = new AuthenticateUserService();
 
-    try {
-      const result = await service.execute(requestData);
+    const result = await service.execute(requestData);
 
-      request.session.jwt = sign(result.user, JWT_SECRET);
+    request.session.jwt = sign(result.user, JWT_SECRET);
 
-      return response.status(200).json(result);
-    } catch (err) {
-      return response.status(401).json({
-        error: err.message
-      });
-    }
+    return response.status(200).json(result);
   }
 
   logout(request: Request, response: Response) {

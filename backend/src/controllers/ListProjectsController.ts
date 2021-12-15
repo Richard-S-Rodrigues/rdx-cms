@@ -6,15 +6,9 @@ class ListProjectsController {
     const { user_id } = request;
     const service = new ListProjectsService();
 
-    try {
-      const result = await service.execute(user_id);
+    const result = await service.execute(user_id);
 
-      return response.status(200).json(result);
-    } catch (err) {
-      return response.status(401).json({
-        error: err.message
-      });
-    }
+    return response.status(200).json(result);
   }
 }
 

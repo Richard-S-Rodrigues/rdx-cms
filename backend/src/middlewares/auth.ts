@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { verify } from "jsonwebtoken";
 
 import { JWT_SECRET } from "../config";
+import { HttpException } from "../exceptions/httpException";
 
 interface IPayload {
   email: string;
@@ -14,20 +15,16 @@ export function auth(request: Request, response: Response, next: NextFunction) {
   const authToken = request.session.jwt;
 
   if (!authToken) {
-    return response.status(401).json({
-      errorCode: "token.invalid"
-    });
+    throw new HttpException(401, "Token invalid or expired");
   }
 
-  try {
-    const user = verify(authToken, JWT_SECRET) as IPayload;
+  const user = verify(authToken, JWT_SECRET) as IPayload;
 
-    request.user_id = user.id;
-
-    return next();
-  } catch (err) {
-    return response.status(401).json({
-      errorCode: "token.expired"
-    });
+  if (!user) {
+    throw new HttpException(401, "Token invalid or expired");
   }
+
+  request.user_id = user.id;
+
+  return next();
 }

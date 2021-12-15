@@ -4,24 +4,25 @@ import { hash } from "bcrypt";
 import { sendEmail } from "../utils/resetPassword/sendEmail";
 
 import { JWT_SECRET } from "../config";
+import { HttpException } from "../exceptions/httpException";
 
 class ResetPasswordService {
   async request(email: string) {
     const user = await prismaClient.user.findFirst({
-      where: { email },
+      where: { email }
     });
 
     if (!user) {
-      throw new Error("User not found");
+      throw new HttpException(404, "User not found");
     }
 
     const tokenExists = await prismaClient.resetPasswordToken.findFirst({
-      where: { user_id: user.id },
+      where: { user_id: user.id }
     });
 
     if (tokenExists) {
       await prismaClient.resetPasswordToken.deleteMany({
-        where: { user_id: user.id },
+        where: { user_id: user.id }
       });
     }
 
@@ -30,8 +31,8 @@ class ResetPasswordService {
     await prismaClient.resetPasswordToken.create({
       data: {
         token: resetPasswordToken,
-        user_id: user.id,
-      },
+        user_id: user.id
+      }
     });
 
     const link = `http://localhost:3000/passwordReset?token=${resetPasswordToken}&id=${user.id}`;
@@ -40,7 +41,7 @@ class ResetPasswordService {
       email,
       subject: "Password reset",
       payload: { name: user.first_name, link },
-      template: "./templates/requestResetPassword.handlebars",
+      template: "./templates/requestResetPassword.handlebars"
     });
 
     return link;
@@ -48,15 +49,15 @@ class ResetPasswordService {
 
   async reset(userId: string, token: string, password: string) {
     const resetPasswordToken = await prismaClient.resetPasswordToken.findFirst({
-      where: { user_id: userId },
+      where: { user_id: userId }
     });
 
     if (!resetPasswordToken) {
-      throw new Error("Invalid or expired token");
+      throw new HttpException(401, "Invalid or expired token");
     }
 
     if (token !== resetPasswordToken.token) {
-      throw new Error("Invalid or expired token");
+      throw new HttpException(401, "Invalid or expired token");
     }
 
     const passwordHashed = await hash(password, 12);
@@ -64,28 +65,28 @@ class ResetPasswordService {
     const updatedUser = await prismaClient.user.update({
       where: { id: userId },
       data: {
-        password: passwordHashed,
-      },
+        password: passwordHashed
+      }
     });
 
     const user = await prismaClient.user.findFirst({
-      where: { id: userId },
+      where: { id: userId }
     });
 
     await sendEmail({
       email: user.email,
       subject: "Password reset",
       payload: { name: user.first_name },
-      template: "./templates/resetPassword.handlebars",
+      template: "./templates/resetPassword.handlebars"
     });
 
     await prismaClient.resetPasswordToken.deleteMany({
       where: { user_id: userId }
-    })
-    
+    });
+
     // Return updatedUser without password
-    delete updatedUser.password
-    return updatedUser 
+    delete updatedUser.password;
+    return updatedUser;
   }
 }
 export { ResetPasswordService };

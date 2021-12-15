@@ -6,15 +6,9 @@ class RequestResetPasswordController {
     const { email } = request.body;
     const service = new ResetPasswordService();
 
-    try {
-      const result = await service.request(email);
+    const result = await service.request(email);
 
-      return response.status(201).json(result);
-    } catch (err) {
-      return response.status(401).json({
-        error: err.message,
-      });
-    }
+    return response.status(201).json(result);
   }
 }
 

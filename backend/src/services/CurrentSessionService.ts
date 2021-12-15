@@ -1,3 +1,4 @@
+import { HttpException } from "../exceptions/httpException";
 import prismaClient from "../prisma";
 
 class CurrentSessionService {
@@ -8,7 +9,7 @@ class CurrentSessionService {
       }
     });
 
-    if (!user) throw new Error("Unauthenticated");
+    if (!user) throw new HttpException(401, "User not authenticated");
 
     return user;
   }

@@ -1,5 +1,6 @@
 import prismaClient from "../prisma";
 import { compare } from "bcrypt";
+import { HttpException } from "../exceptions/httpException";
 
 interface IData {
   email: string;
@@ -15,13 +16,13 @@ class AuthenticateUserService {
     });
 
     if (!user) {
-      throw new Error("Invalid credentials");
+      throw new HttpException(404, "Invalid credentials");
     }
 
     const isPasswordCorrect = await compare(password, user.password);
 
     if (!isPasswordCorrect) {
-      throw new Error("Invalid credentials");
+      throw new HttpException(404, "Invalid credentials");
     }
 
     delete user.password;

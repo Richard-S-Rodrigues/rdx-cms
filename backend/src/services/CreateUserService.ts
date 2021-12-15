@@ -1,5 +1,6 @@
 import prismaClient from "../prisma";
 import { hash } from "bcrypt";
+import { HttpException } from "../exceptions/httpException";
 
 interface IData {
   first_name: string;
@@ -17,7 +18,7 @@ class CreateUserService {
     });
 
     if (user) {
-      throw new Error("User already exists");
+      throw new HttpException(400, "User already exists");
     }
 
     const passwordHashed = await hash(password, 12);
