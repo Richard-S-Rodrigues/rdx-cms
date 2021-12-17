@@ -1,5 +1,8 @@
 import { useContext } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+import ReactLoading from "react-loading";
+
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
@@ -19,8 +22,13 @@ const PrivateRoute = ({ children }: IPrivateRouteProps) => {
   const { isAuthenticated, isLoading } = useContext(authenticationContext);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center mt-40">
+        <ReactLoading type="bubbles" color="#1052fc" height={200} width={200} />
+      </div>
+    );
   }
+
   return isAuthenticated ? children : <Navigate to="/signin" />;
 };
 

@@ -29,7 +29,7 @@ export const AuthenticationProvider = ({
           setIsAuthenticated(true);
         }
       } catch (err) {
-        console.log(err);
+        setIsAuthenticated(false);
       }
       setIsLoading(false);
     };
