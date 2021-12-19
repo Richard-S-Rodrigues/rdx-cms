@@ -18,6 +18,10 @@ interface IProjectsResponse {
 
 const Projects = () => {
   const [projects, setProjects] = useState<IProjectsResponse[]>([]);
+  const [filteredProjects, setFilteredProjects] = useState<IProjectsResponse[]>(
+    []
+  );
+  const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
     const getProjects = async () => {
@@ -36,6 +40,16 @@ const Projects = () => {
     getProjects();
   }, []);
 
+  const searchProject = (event: any) => {
+    setSearchValue(event.target.value);
+
+    const searchProjects = projects.filter(({ project }) =>
+      project.name.includes(event.target.value)
+    );
+
+    setFilteredProjects(searchProjects);
+  };
+
   return (
     <div className="w-full min-h-full flex p-5 my-0 ">
       <main className="block w-full space-y-8 mx-auto sm:w-4/5">
@@ -48,6 +62,8 @@ const Projects = () => {
             <span className="w-full flex justify-between">
               <input
                 type="text"
+                value={searchValue}
+                onChange={searchProject}
                 placeholder="Search..."
                 className="input rounded-r-none border-r-0 w-full"
               />
@@ -65,14 +81,23 @@ const Projects = () => {
         </section>
         <section className="mt-12">
           <ul>
-            {projects.map((project) => (
-              <li
-                key={project.id}
-                className="border p-4 h2 mt-4 hover:bg-gray-200 hover:text-green delay-150 duration-300 cursor-pointer"
-              >
-                {project.project.name}
-              </li>
-            ))}
+            {filteredProjects.length > 0
+              ? filteredProjects.map((project) => (
+                  <li
+                    key={project.id}
+                    className="border p-4 h2 mt-4 hover:bg-gray-200 hover:text-green delay-150 duration-300 cursor-pointer"
+                  >
+                    {project.project.name}
+                  </li>
+                ))
+              : projects.map((project) => (
+                  <li
+                    key={project.id}
+                    className="border p-4 h2 mt-4 hover:bg-gray-200 hover:text-green delay-150 duration-300 cursor-pointer"
+                  >
+                    {project.project.name}
+                  </li>
+                ))}
           </ul>
         </section>
       </main>
