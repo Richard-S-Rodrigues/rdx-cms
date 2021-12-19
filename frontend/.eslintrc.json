@@ -37,7 +37,9 @@
     "no-use-before-define": "off",
     "operator-linebreak": "off",
     "no-useless-return": "off",
-    "no-undef": "off"
+    "no-undef": "off",
+    "implicit-arrow-linebreak": "off",
+    "function-paren-newline": "off"
   },
   "settings": {
     "import/resolver": {

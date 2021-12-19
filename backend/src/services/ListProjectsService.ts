@@ -8,6 +8,9 @@ class ListProjectsService {
       },
       include: {
         project: true
+      },
+      orderBy: {
+        created_at: "desc"
       }
     });
 

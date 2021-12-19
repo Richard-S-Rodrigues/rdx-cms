@@ -9,6 +9,8 @@ class CreateProjectController {
 
     const result = await service.execute(name, creator_id);
 
+    // Return without password
+    delete result.creator.password;
     return response.status(201).json(result);
   }
 }
