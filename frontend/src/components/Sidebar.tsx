@@ -1,12 +1,26 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+
 import { FaUserAlt, FaProjectDiagram } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 
-import { useState } from "react";
+import { api } from "../services/api";
+
 import Menu from "./Menu";
 
 const SideBar = () => {
   const [isMenu, setIsMenu] = useState(false);
+
+  const logoutHandler = async () => {
+    try {
+      await api.get("/logout", { withCredentials: true });
+
+      localStorage.removeItem("rdxcms:user_info");
+      window.location.reload();
+    } catch (err: any) {
+      console.error(err.message);
+    }
+  };
 
   return isMenu ? (
     <Menu setMenu={setIsMenu} />
@@ -51,13 +65,14 @@ const SideBar = () => {
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/"
+                <button
+                  type="button"
+                  onClick={logoutHandler}
                   className="flex items-center mt-8 hover:text-green delay-150 duration-300"
                 >
                   <FiLogOut className="text-green w-5 h-5" />
                   <span className="ml-2">Log out</span>
-                </Link>
+                </button>
               </li>
             </ul>
           </nav>
