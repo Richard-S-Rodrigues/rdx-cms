@@ -8,6 +8,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import PasswordReset from "./pages/passwordReset";
 import SendPasswordResetEmail from "./pages/passwordReset/SendPasswordResetEmail";
+import MyAccount from "./pages/MyAccount";
 
 import {
   authenticationContext,
@@ -50,6 +51,15 @@ const Router = () => (
             // eslint-disable-next-line react/jsx-wrap-multilines
             <PrivateRoute>
               <Home />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/my-account"
+          element={
+            // eslint-disable-next-line react/jsx-wrap-multilines
+            <PrivateRoute>
+              <MyAccount />
             </PrivateRoute>
           }
         />

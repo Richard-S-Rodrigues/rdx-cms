@@ -74,6 +74,7 @@ const SignUp = () => {
               <input
                 type="text"
                 id="firstName"
+                name="firstName"
                 value={firstName}
                 onChange={(event) => setFirstName(event.target.value)}
                 className="input mb-4 sm:mb-0"
@@ -85,6 +86,7 @@ const SignUp = () => {
               <input
                 type="text"
                 id="lastName"
+                name="lastName"
                 value={lastName}
                 onChange={(event) => setLastName(event.target.value)}
                 className="input"
@@ -99,6 +101,7 @@ const SignUp = () => {
                 <input
                   type="email"
                   id="email"
+                  name="email"
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
                   className="input"
@@ -112,6 +115,7 @@ const SignUp = () => {
                 <input
                   type="password"
                   id="password"
+                  name="password"
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                   className="input"

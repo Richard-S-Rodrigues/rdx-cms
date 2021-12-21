@@ -65,6 +65,7 @@ const SignIn = () => {
                 <input
                   type="email"
                   id="email"
+                  name="email"
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
                   className="input"
@@ -78,6 +79,7 @@ const SignIn = () => {
                 <input
                   type="password"
                   id="password"
+                  name="password"
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                   className="input"

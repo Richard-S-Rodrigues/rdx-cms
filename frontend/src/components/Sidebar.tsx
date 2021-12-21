@@ -57,7 +57,7 @@ const SideBar = () => {
               </li>
               <li>
                 <Link
-                  to="/"
+                  to="/my-account"
                   className="flex items-center mt-8 hover:text-green delay-150 duration-300"
                 >
                   <FaUserAlt className="text-green w-5 h-5" />

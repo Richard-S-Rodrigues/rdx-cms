@@ -89,6 +89,8 @@ const Projects = () => {
               <span className="w-full flex justify-between">
                 <input
                   type="text"
+                  id="searchValue"
+                  name="searchValue"
                   value={searchValue}
                   onChange={searchProject}
                   placeholder="Search..."
