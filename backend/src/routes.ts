@@ -12,10 +12,12 @@ import { RemoveProjectController } from "./controllers/RemoveProjectController";
 import { ListProjectsController } from "./controllers/ListProjectsController";
 
 import { auth } from "./middlewares/auth";
+import { UpdateUserController } from "./controllers/UpdateUserController";
 
 router.post("/signout", new CreateUserController().handle);
 router.post("/signin", new AuthenticateUserController().handle);
 router.get("/logout", new AuthenticateUserController().logout);
+router.post("/updateUser", auth, new UpdateUserController().handle);
 router.post(
   "/requestPasswordReset",
   new RequestResetPasswordController().handle
