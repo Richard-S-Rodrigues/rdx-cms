@@ -18,13 +18,13 @@ class RemoveProjectService {
       );
     }
 
-    const updatedProject = await prismaClient.project.delete({
+    const deleteProject = await prismaClient.project.delete({
       where: {
         id: project_id
       }
     });
 
-    return updatedProject;
+    return deleteProject;
   }
 }
 

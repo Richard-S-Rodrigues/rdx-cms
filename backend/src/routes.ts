@@ -10,14 +10,16 @@ import { CurrentSessionController } from "./controllers/CurrentSessionController
 import { CreateProjectController } from "./controllers/CreateProjectController";
 import { RemoveProjectController } from "./controllers/RemoveProjectController";
 import { ListProjectsController } from "./controllers/ListProjectsController";
+import { UpdateUserController } from "./controllers/UpdateUserController";
+import { RemoveAccountController } from "./controllers/RemoveAccountController";
 
 import { auth } from "./middlewares/auth";
-import { UpdateUserController } from "./controllers/UpdateUserController";
 
 router.post("/signout", new CreateUserController().handle);
 router.post("/signin", new AuthenticateUserController().handle);
 router.get("/logout", new AuthenticateUserController().logout);
 router.post("/updateUser", auth, new UpdateUserController().handle);
+router.post("/removeAccount", auth, new RemoveAccountController().handle);
 router.post(
   "/requestPasswordReset",
   new RequestResetPasswordController().handle
