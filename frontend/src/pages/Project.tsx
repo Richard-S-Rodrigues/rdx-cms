@@ -1,13 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../services/api";
 
 import Header from "../components/Header";
 import BlogPosts from "../components/BlogPosts";
+import ProjectSettings from "../components/ProjectSettings";
 
 const Project = () => {
   const { id: projectId } = useParams();
   const navigate = useNavigate();
+
+  const [isPosts, setIsPosts] = useState(true);
+  const [isSettings, setIsSettings] = useState(false);
 
   useEffect(() => {
     const getProject = async () => {
@@ -33,15 +37,42 @@ const Project = () => {
       <div className="w-full min-h-full flex p-5 my-0 ">
         <main className="block w-full space-y-8 mx-auto sm:w-4/5">
           <section className="block sm:flex sm:justify-between">
-            <div>
-              <h2 className="h2">Posts</h2>
-              <div className="bg-blue w-10 h-3 rounded-md" />
+            <div className="flex">
+              <div
+                className={`${!isPosts && "opacity-20"}`}
+                onClick={() => {
+                  setIsPosts(true);
+                  setIsSettings(false);
+                }}
+                onKeyPress={() => {}}
+                role="button"
+                tabIndex={0}
+              >
+                <h2 className="h2">Posts</h2>
+                {isPosts && <div className="bg-blue w-10 h-3 rounded-md" />}
+              </div>
+              <div
+                className={`ml-6 ${!isSettings && "opacity-20"}`}
+                onClick={() => {
+                  setIsSettings(true);
+                  setIsPosts(false);
+                }}
+                onKeyPress={() => {}}
+                role="button"
+                tabIndex={0}
+              >
+                <h2 className="h2">Settings</h2>
+                {isSettings && <div className="bg-blue w-10 h-3 rounded-md" />}
+              </div>
             </div>
-            <button type="button" className="btn w-full mt-2 sm:w-40 sm:mt-0">
+            <button
+              type="button"
+              className="btn w-full bg-green mt-2 sm:w-40 sm:mt-0"
+            >
               + Add post
             </button>
           </section>
-          <BlogPosts />
+          {!isSettings ? <BlogPosts /> : <ProjectSettings />}
         </main>
       </div>
     </>
