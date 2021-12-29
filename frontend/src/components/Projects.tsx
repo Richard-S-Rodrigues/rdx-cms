@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { FiSearch } from "react-icons/fi";
 import { api } from "../services/api";
 import NewProjectModal from "./NewProjectModal";
@@ -113,20 +114,24 @@ const Projects = () => {
             <ul>
               {filteredProjects.length > 0
                 ? filteredProjects.map((project) => (
-                    <li
+                    <Link
+                      to={`/projects/${project.project_id}`}
                       key={project.id}
-                      className="border p-4 h2 mt-4 hover:bg-gray-200 hover:text-green delay-150 duration-300 cursor-pointer"
                     >
-                      {project.project.name}
-                    </li>
+                      <li className="border p-4 h2 mt-4 hover:bg-gray-200 hover:text-green delay-150 duration-300 cursor-pointer">
+                        {project.project.name}
+                      </li>
+                    </Link>
                   ))
                 : projects.map((project) => (
-                    <li
+                    <Link
+                      to={`/projects/${project.project_id}`}
                       key={project.id}
-                      className="border p-4 h2 mt-4 hover:bg-gray-200 hover:text-green delay-150 duration-300 cursor-pointer"
                     >
-                      {project.project.name}
-                    </li>
+                      <li className="border p-4 h2 mt-4 hover:bg-gray-200 hover:text-green delay-150 duration-300 cursor-pointer">
+                        {project.project.name}
+                      </li>
+                    </Link>
                   ))}
             </ul>
           </section>

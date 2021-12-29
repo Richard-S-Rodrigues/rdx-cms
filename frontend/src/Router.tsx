@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 import ReactLoading from "react-loading";
 
@@ -9,6 +10,7 @@ import SignUp from "./pages/SignUp";
 import PasswordReset from "./pages/passwordReset";
 import SendPasswordResetEmail from "./pages/passwordReset/SendPasswordResetEmail";
 import MyAccount from "./pages/MyAccount";
+import Project from "./pages/Project";
 
 import {
   authenticationContext,
@@ -45,21 +47,33 @@ const Router = () => (
           element={<SendPasswordResetEmail />}
         />
 
-        <Route
-          path="/"
-          element={
-            // eslint-disable-next-line react/jsx-wrap-multilines
-            <PrivateRoute>
-              <Home />
-            </PrivateRoute>
-          }
-        />
+        {["/", "/projects"].map((path: string) => (
+          <Route
+            path={path}
+            element={
+              // eslint-disable-next-line react/jsx-wrap-multilines
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+            }
+            key={uuidv4()}
+          />
+        ))}
         <Route
           path="/my-account"
           element={
             // eslint-disable-next-line react/jsx-wrap-multilines
             <PrivateRoute>
               <MyAccount />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/projects/:id"
+          element={
+            // eslint-disable-next-line react/jsx-wrap-multilines
+            <PrivateRoute>
+              <Project />
             </PrivateRoute>
           }
         />
