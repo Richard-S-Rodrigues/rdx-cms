@@ -39,7 +39,8 @@
     "no-useless-return": "off",
     "no-undef": "off",
     "implicit-arrow-linebreak": "off",
-    "function-paren-newline": "off"
+    "function-paren-newline": "off",
+    "no-confusing-arrow": "off"
   },
   "settings": {
     "import/resolver": {

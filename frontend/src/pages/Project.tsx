@@ -10,6 +10,9 @@ const Project = () => {
   const { id: projectId } = useParams();
   const navigate = useNavigate();
 
+  const [projectName, setProjectName] = useState("");
+  const [projectMembers, setProjectMembers] = useState([]);
+
   const [isPosts, setIsPosts] = useState(true);
   const [isSettings, setIsSettings] = useState(false);
 
@@ -22,6 +25,7 @@ const Project = () => {
 
         if (response.status === 200) {
           console.log(response);
+          setProjectName(response.data.project.name);
         }
       } catch (err: any) {
         console.error(err.response.data.error);
@@ -39,7 +43,7 @@ const Project = () => {
           <section className="block sm:flex sm:justify-between">
             <div className="flex">
               <div
-                className={`${!isPosts && "opacity-20"}`}
+                className={`${!isPosts && "opacity-30"}`}
                 onClick={() => {
                   setIsPosts(true);
                   setIsSettings(false);
@@ -52,7 +56,7 @@ const Project = () => {
                 {isPosts && <div className="bg-blue w-10 h-3 rounded-md" />}
               </div>
               <div
-                className={`ml-6 ${!isSettings && "opacity-20"}`}
+                className={`ml-6 ${!isSettings && "opacity-30"}`}
                 onClick={() => {
                   setIsSettings(true);
                   setIsPosts(false);
@@ -65,14 +69,21 @@ const Project = () => {
                 {isSettings && <div className="bg-blue w-10 h-3 rounded-md" />}
               </div>
             </div>
-            <button
-              type="button"
-              className="btn w-full bg-green mt-2 sm:w-40 sm:mt-0"
-            >
-              + Add post
-            </button>
+
+            {isPosts && (
+              <button
+                type="button"
+                className="btn w-full bg-green hover:bg-green mt-2 sm:w-40 sm:mt-0"
+              >
+                + Add post
+              </button>
+            )}
           </section>
-          {!isSettings ? <BlogPosts /> : <ProjectSettings />}
+          {!isSettings ? (
+            <BlogPosts />
+          ) : (
+            <ProjectSettings projectName={projectName} />
+          )}
         </main>
       </div>
     </>
