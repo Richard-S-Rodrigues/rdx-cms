@@ -6,6 +6,24 @@ import Header from "../components/Header";
 import BlogPosts from "../components/BlogPosts";
 import ProjectSettings from "../components/ProjectSettings";
 
+interface IProjectResponse {
+  id: string;
+  name: string;
+  creator_id: string;
+  created_at: string;
+  members: [
+    {
+      id: string;
+      name: string;
+      project_id: string;
+      member_id: string;
+      is_creator: boolean;
+      role: string;
+      created_at: string;
+    }
+  ];
+}
+
 const Project = () => {
   const { id: projectId } = useParams();
   const navigate = useNavigate();
@@ -19,13 +37,16 @@ const Project = () => {
   useEffect(() => {
     const getProject = async () => {
       try {
-        const response = await api.get(`/projects/${projectId}`, {
-          withCredentials: true
-        });
+        const response = await api.get<IProjectResponse>(
+          `/projects/${projectId}`,
+          {
+            withCredentials: true
+          }
+        );
 
         if (response.status === 200) {
           console.log(response);
-          setProjectName(response.data.project.name);
+          setProjectName(response.data.name);
         }
       } catch (err: any) {
         console.error(err.response.data.error);

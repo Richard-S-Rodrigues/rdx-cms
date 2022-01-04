@@ -3,13 +3,17 @@ import prismaClient from "../prisma";
 
 class ListProjectByIdService {
   async execute(projectId: string, userId: string) {
-    const project = await prismaClient.projectMember.findFirst({
+    const project = await prismaClient.project.findFirst({
       where: {
-        member_id: userId,
-        project_id: projectId
+        id: projectId,
+        members: {
+          some: {
+            member_id: userId
+          }
+        }
       },
       include: {
-        project: true
+        members: true
       }
     });
 
