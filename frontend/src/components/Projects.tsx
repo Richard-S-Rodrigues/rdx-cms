@@ -6,16 +6,19 @@ import NewProjectModal from "./NewProjectModal";
 
 interface IProjectsResponse {
   id: string;
-  member_id: string;
-  is_creator: boolean;
-  project: {
-    id: string;
-    name: string;
-    creator_id: string;
-    created_at: string;
-  };
-  project_id: string;
-  role: string;
+  name: string;
+  creator_id: string;
+  created_at: string;
+  members: [
+    {
+      id: string;
+      project_id: string;
+      member_id: string;
+      is_creator: boolean;
+      role: string;
+      created_at: string;
+    }
+  ];
 }
 
 const Projects = () => {
@@ -47,7 +50,7 @@ const Projects = () => {
   const searchProject = (event: any) => {
     setSearchValue(event.target.value);
 
-    const searchProjects = projects.filter(({ project }) =>
+    const searchProjects = projects.filter((project) =>
       project.name.includes(event.target.value)
     );
 
@@ -114,22 +117,16 @@ const Projects = () => {
             <ul>
               {filteredProjects.length > 0
                 ? filteredProjects.map((project) => (
-                    <Link
-                      to={`/projects/${project.project_id}`}
-                      key={project.id}
-                    >
+                    <Link to={`/projects/${project.id}`} key={project.id}>
                       <li className="border p-4 h2 mt-4 hover:bg-gray-200 hover:text-green delay-150 duration-300 cursor-pointer">
-                        {project.project.name}
+                        {project.name}
                       </li>
                     </Link>
                   ))
                 : projects.map((project) => (
-                    <Link
-                      to={`/projects/${project.project_id}`}
-                      key={project.id}
-                    >
+                    <Link to={`/projects/${project.id}`} key={project.id}>
                       <li className="border p-4 h2 mt-4 hover:bg-gray-200 hover:text-green delay-150 duration-300 cursor-pointer">
-                        {project.project.name}
+                        {project.name}
                       </li>
                     </Link>
                   ))}

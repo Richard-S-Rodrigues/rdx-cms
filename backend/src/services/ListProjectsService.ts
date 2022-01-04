@@ -2,12 +2,16 @@ import prismaClient from "../prisma";
 
 class ListProjectsService {
   async execute(userId: string) {
-    const projects = await prismaClient.projectMember.findMany({
+    const projects = await prismaClient.project.findMany({
       where: {
-        member_id: userId
+        members: {
+          some: {
+            member_id: userId
+          }
+        }
       },
       include: {
-        project: true
+        members: true
       },
       orderBy: {
         created_at: "desc"

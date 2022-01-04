@@ -2,13 +2,34 @@ import { useState } from "react";
 import { BiEdit } from "react-icons/bi";
 import { CgDanger } from "react-icons/cg";
 import { FaTrashAlt, FaUserAlt } from "react-icons/fa";
+import ReactTooltip from "react-tooltip";
 
 interface IProjectSettingsProps {
   projectName: string;
 }
 
+const fakeMembers = [
+  {
+    id: "1",
+    name: "Richard Rodrigues",
+    project_id: "wqdqw1212112",
+    member_id: "qwswqqwqwqw",
+    role: "Administrator",
+    is_creator: true
+  },
+  {
+    id: "2",
+    name: "Drahcir Seugirdor",
+    project_id: "wqdqw1212112",
+    member_id: "aaabbbbccc",
+    role: "Editor",
+    is_creator: true
+  }
+];
+
 const ProjectSettings = ({ projectName }: IProjectSettingsProps) => {
   const [newProjectName, setNewProjectName] = useState(projectName);
+  const [members, setMembers] = useState(fakeMembers || []);
 
   return (
     <section>
@@ -36,18 +57,27 @@ const ProjectSettings = ({ projectName }: IProjectSettingsProps) => {
               </tr>
             </thead>
             <tbody>
-              <tr className="flex border-b p-4 ">
-                <td className="flex justify-between items-center w-full">
-                  <div className="flex items-center mt-2">
-                    <FaUserAlt className="w-10 h-10 bg-black text-white rounded-full" />
-                    <span className="ml-2">Richard Rodrigues</span>
-                  </div>
-                  <div className="flex items-center">
-                    <span>Administrator</span>
-                    <BiEdit className="w-6 h-6 ml-2" />
-                  </div>
-                </td>
-              </tr>
+              {members.map((member) => (
+                <tr key={member.id} className="flex border-b p-4 ">
+                  <td className="flex justify-between items-center w-full">
+                    <div className="flex items-center mt-2">
+                      <FaUserAlt className="w-10 h-10 bg-black text-white rounded-full" />
+                      <span className="ml-2">{member.name}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <span>{member.role}</span>
+                      <BiEdit
+                        className="w-6 h-6 ml-2"
+                        role="button"
+                        data-tip="Change role"
+                        data-for="tooltipEdit"
+                        data-place="top"
+                      />
+                      <ReactTooltip id="tooltipEdit" />
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
           <button type="submit" className="btn w-full sm:w-40">
