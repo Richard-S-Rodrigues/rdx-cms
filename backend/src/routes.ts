@@ -13,6 +13,7 @@ import { CreateProjectController } from "./controllers/CreateProjectController";
 import { RemoveProjectController } from "./controllers/RemoveProjectController";
 import { ListProjectsController } from "./controllers/ListProjectsController";
 import { ListProjectByIdController } from "./controllers/ListProjectByIdController";
+import { UpdateProjectController } from "./controllers/UpdateProjectController";
 
 import { auth } from "./middlewares/auth";
 
@@ -32,5 +33,6 @@ router.post("/project/create", auth, new CreateProjectController().handle);
 router.post("/project/delete", auth, new RemoveProjectController().handle);
 router.get("/projects", auth, new ListProjectsController().handle);
 router.get("/projects/:id", auth, new ListProjectByIdController().handle);
+router.post("/projects/:id/update", auth, new UpdateProjectController().handle);
 
 export { router };

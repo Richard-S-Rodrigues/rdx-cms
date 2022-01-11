@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:./dev.db"
+  url      = "file:./dev.db?socket_timeout=10&connection_limit=1"
 }
 
 model User {
@@ -46,11 +46,11 @@ model Project {
 model ProjectMember {
   id         String   @id @default(uuid())
   name       String   @default("")
-  project    Project  @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  project    Project  @relation(fields: [project_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   project_id String
   member_id  String
   is_creator Boolean  @default(false)
-  role       String
+  role       String   @default("Editor")
   created_at DateTime @default(now())
 
   @@map("projectMembers")

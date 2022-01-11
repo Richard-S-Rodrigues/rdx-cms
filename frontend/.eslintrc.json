@@ -40,7 +40,8 @@
     "no-undef": "off",
     "implicit-arrow-linebreak": "off",
     "function-paren-newline": "off",
-    "no-confusing-arrow": "off"
+    "no-confusing-arrow": "off",
+    "no-param-reassign": ["error", { "props": false }]
   },
   "settings": {
     "import/resolver": {

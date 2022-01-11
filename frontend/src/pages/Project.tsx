@@ -11,17 +11,17 @@ interface IProjectResponse {
   name: string;
   creator_id: string;
   created_at: string;
-  members: [
-    {
-      id: string;
-      name: string;
-      project_id: string;
-      member_id: string;
-      is_creator: boolean;
-      role: string;
-      created_at: string;
-    }
-  ];
+  members: IProjectMembersResponse[];
+}
+
+interface IProjectMembersResponse {
+  id: string;
+  name: string;
+  project_id: string;
+  member_id: string;
+  is_creator: boolean;
+  role: string;
+  created_at: string;
 }
 
 const Project = () => {
@@ -29,7 +29,9 @@ const Project = () => {
   const navigate = useNavigate();
 
   const [projectName, setProjectName] = useState("");
-  const [projectMembers, setProjectMembers] = useState([]);
+  const [projectMembers, setProjectMembers] = useState<
+    IProjectMembersResponse[]
+  >([]);
 
   const [isPosts, setIsPosts] = useState(true);
   const [isSettings, setIsSettings] = useState(false);
@@ -47,6 +49,7 @@ const Project = () => {
         if (response.status === 200) {
           console.log(response);
           setProjectName(response.data.name);
+          setProjectMembers(response.data.members);
         }
       } catch (err: any) {
         console.error(err.response.data.error);
@@ -103,7 +106,11 @@ const Project = () => {
           {!isSettings ? (
             <BlogPosts />
           ) : (
-            <ProjectSettings projectName={projectName} />
+            <ProjectSettings
+              projectId={projectId}
+              projectName={projectName}
+              projectMembers={projectMembers}
+            />
           )}
         </main>
       </div>
