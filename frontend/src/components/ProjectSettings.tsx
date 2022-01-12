@@ -28,6 +28,7 @@ const ProjectSettings = ({
   const [members, setMembers] = useState<IMembers[]>(projectMembers);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isCreator, setIsCreator] = useState(false);
+  const [isProjectUpdated, setIsProjectUpdated] = useState(false);
 
   useEffect(() => {
     checkUser();
@@ -76,10 +77,16 @@ const ProjectSettings = ({
         },
         { withCredentials: true }
       );
-      console.log(response);
-    } catch (err) {
-      console.error(err);
+      if (response.status === 201) {
+        setIsProjectUpdated(true);
+      }
+    } catch (err: any) {
+      console.error(err.message);
     }
+
+    setTimeout(() => {
+      setIsProjectUpdated(false);
+    }, 3000);
   };
 
   return (
@@ -151,15 +158,23 @@ const ProjectSettings = ({
               ))}
             </tbody>
           </table>
-          {(isCreator || isAdmin) && (
-            <button
-              type="submit"
-              onClick={updateProjectHandler}
-              className="btn w-full sm:w-40"
-            >
-              Save updates
-            </button>
-          )}
+          {(isCreator || isAdmin) &&
+            (isProjectUpdated ? (
+              <button
+                type="submit"
+                className="btn w-full sm:w-40 mt-4 bg-green hover:bg-green transition duration-300 delay-300"
+              >
+                Project updated
+              </button>
+            ) : (
+              <button
+                type="submit"
+                onClick={updateProjectHandler}
+                className="btn w-full sm:w-40"
+              >
+                Save updates
+              </button>
+            ))}
         </form>
       </div>
       {isCreator && (

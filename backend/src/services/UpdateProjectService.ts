@@ -17,16 +17,9 @@ class UpdateProjectService {
 
     await this.checkUserAuth(project_id, user_id);
 
-    const project = await prismaClient.project.findUnique({
-      where: {
-        id: project_id
-      },
-      include: {
-        members: true
-      }
+    members.forEach(async (member) => {
+      await this.updateMember(project_id, member);
     });
-
-    await this.updateMembers(project_id, project, members);
 
     const updated_project = await prismaClient.project.update({
       where: {
@@ -39,11 +32,6 @@ class UpdateProjectService {
     });
 
     if (!updated_project) throw new HttpException(404, "Project not found");
-
-    //const [, updated_project_result] = await prismaClient.$transaction([
-    //  updated_members,
-    //  updated_project
-    //]);
 
     return updated_project;
   }
@@ -61,28 +49,21 @@ class UpdateProjectService {
     }
   }
 
-  async updateMembers(project_id: string, project, members: IMembers[]) {
-    members.forEach(async (member, index) => {
-      //const { role, ...members_without_role } = project.members[index];
-      //project.members.splice(index, 1, {
-      //  ...members_without_role,
-      //  role: member.role
-      //});
-
-      try {
-        await prismaClient.projectMember.updateMany({
-          where: {
-            project_id,
-            member_id: member.member_id
-          },
-          data: {
-            role: member.role
-          }
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    });
+  async updateMember(project_id: string, member: IMembers) {
+    try {
+      await prismaClient.projectMember.updateMany({
+        where: {
+          project_id,
+          member_id: member.member_id
+        },
+        data: {
+          role: member.role
+        }
+      });
+    } catch (err) {
+      console.log(err);
+      throw new HttpException(400, "Error updating members");
+    }
   }
 }
 
