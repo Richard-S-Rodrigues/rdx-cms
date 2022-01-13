@@ -1,19 +1,23 @@
 import { SyntheticEvent, useEffect, useState } from "react";
 import { HiX } from "react-icons/hi";
-import { api } from "../services/api";
+import { api, logout } from "../services/api";
 import ErrorBlock from "./ErrorBlock";
 
-interface IDeleteProjectModalProps {
+interface IDeleteModalProps {
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
-  projectId: string;
+  projectId?: string;
+  isProject?: boolean;
+  isAccount?: boolean;
 }
 
-const DeleteProjectModal = ({
+const DeleteModal = ({
   setModal,
-  projectId
-}: IDeleteProjectModalProps) => {
+  projectId,
+  isProject,
+  isAccount
+}: IDeleteModalProps) => {
   const [userEmail, setUserEmail] = useState("");
-  const [deleteProjectConfirm, setDeleteProjectConfirm] = useState("");
+  const [confirmDelete, setConfirmDelete] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [isVerified, setIsVerified] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -23,22 +27,20 @@ const DeleteProjectModal = ({
     if (
       userEmail.trim() &&
       userPassword.trim() &&
-      deleteProjectConfirm === "Delete project"
+      (isProject
+        ? confirmDelete === "Delete project"
+        : isAccount && confirmDelete === "Delete account")
     ) {
       setIsVerified(true);
     } else {
       setIsVerified(false);
     }
-  }, [userEmail, deleteProjectConfirm, userPassword]);
+  }, [userEmail, confirmDelete, userPassword]);
 
   const onSubmitHandler = async (event: SyntheticEvent) => {
     event.preventDefault();
 
-    if (
-      !userEmail.trim() ||
-      !deleteProjectConfirm.trim() ||
-      !userPassword.trim()
-    ) {
+    if (!userEmail.trim() || !confirmDelete.trim() || !userPassword.trim()) {
       return;
     }
 
@@ -50,7 +52,11 @@ const DeleteProjectModal = ({
       const response = await api.post("/signin", { email, password });
 
       if (response.status === 200) {
-        await deleteProject();
+        if (isProject) {
+          await deleteProject();
+        } else if (isAccount) {
+          await deleteAccount();
+        }
       }
     } catch (err: any) {
       setIsError(true);
@@ -74,6 +80,22 @@ const DeleteProjectModal = ({
     }
   };
 
+  const deleteAccount = async () => {
+    try {
+      const response = await api.post(
+        "/removeAccount",
+        {},
+        { withCredentials: true }
+      );
+
+      if (response.status === 200) {
+        logout();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <>
       {isError && <ErrorBlock message={errorMessage} setIsError={setIsError} />}
@@ -87,10 +109,23 @@ const DeleteProjectModal = ({
             />
           </div>
           <section className="my-4">
-            <p className="text-justify">
-              This will immediately delete your project and you won't be able to
-              recover
-            </p>
+            {isAccount ? (
+              <>
+                <p className="text-justify">
+                  This will immediately delete your account and every project
+                  that you <b>owns.</b>
+                </p>
+                <p className="text-justify">
+                  Also, it will remove you from every project you participate,
+                  as <b>Administrator</b> or <b>Editor</b>
+                </p>
+              </>
+            ) : (
+              <p className="text-justify">
+                This will immediately delete your project and you won't be able
+                to recover
+              </p>
+            )}
           </section>
           <section>
             <form onSubmit={onSubmitHandler}>
@@ -105,15 +140,15 @@ const DeleteProjectModal = ({
                   required
                 />
               </label>
-              <label htmlFor="deleteProjectConfirm">
-                To verify, type <i>Delete project</i> below:
+              <label htmlFor="confirmDelete">
+                To verify, type{" "}
+                {isAccount ? <i>Delete account</i> : <i>Delete project</i>}{" "}
+                below:
                 <input
                   type="text"
-                  id="deleteProjectConfirm"
-                  value={deleteProjectConfirm}
-                  onChange={(event) =>
-                    setDeleteProjectConfirm(event.target.value)
-                  }
+                  id="confirmDelete"
+                  value={confirmDelete}
+                  onChange={(event) => setConfirmDelete(event.target.value)}
                   className="input mb-3"
                   required
                 />
@@ -135,7 +170,7 @@ const DeleteProjectModal = ({
                   type="submit"
                   className="btn bg-red-600 hover:bg-red-600 w-full"
                 >
-                  Delete project
+                  {isAccount ? "Delete account" : "Delete project"}
                 </button>
               ) : (
                 <button
@@ -143,7 +178,7 @@ const DeleteProjectModal = ({
                   disabled
                   className="btn bg-red-800 hover:bg-red-800 w-full cursor-default"
                 >
-                  Delete project
+                  {isAccount ? "Delete account" : "Delete project"}
                 </button>
               )}
             </form>
@@ -154,4 +189,10 @@ const DeleteProjectModal = ({
   );
 };
 
-export default DeleteProjectModal;
+DeleteModal.defaultProps = {
+  projectId: "",
+  isProject: false,
+  isAccount: false
+};
+
+export default DeleteModal;

@@ -5,7 +5,7 @@ import { CgDanger } from "react-icons/cg";
 import { FaTrashAlt } from "react-icons/fa";
 import Header from "../components/Header";
 import { api } from "../services/api";
-import DeleteAccountModal from "../components/DeleteAccountModal";
+import DeleteModal from "../components/DeleteModal";
 
 const MyAccount = () => {
   const userDetails = JSON.parse(
@@ -55,7 +55,7 @@ const MyAccount = () => {
   return (
     <>
       {isDeleteAccountModal && (
-        <DeleteAccountModal setModal={setIsDeleteAccountModal} />
+        <DeleteModal setModal={setIsDeleteAccountModal} isAccount />
       )}
       <Header />
       <main className="m-4 block sm:w-4/5 sm:mx-auto">

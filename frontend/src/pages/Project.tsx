@@ -5,7 +5,7 @@ import { api } from "../services/api";
 import Header from "../components/Header";
 import BlogPosts from "../components/BlogPosts";
 import ProjectSettings from "../components/ProjectSettings";
-import DeleteProjectModal from "../components/DeleteProjectModal";
+import DeleteModal from "../components/DeleteModal";
 
 interface IProjectResponse {
   id: string;
@@ -65,7 +65,11 @@ const Project = () => {
     <>
       <Header />
       {isDeleteModal && (
-        <DeleteProjectModal setModal={setIsDeleteModal} projectId={projectId} />
+        <DeleteModal
+          setModal={setIsDeleteModal}
+          projectId={projectId}
+          isProject
+        />
       )}
       <div className="w-full min-h-full flex p-5 my-0 ">
         <main className="block w-full space-y-8 mx-auto sm:w-4/5">
