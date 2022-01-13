@@ -7,6 +7,7 @@ interface IProjectSettingsProps {
   projectId: string;
   projectName: string;
   projectMembers: IMembers[];
+  setDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface IMembers {
@@ -22,7 +23,8 @@ interface IMembers {
 const ProjectSettings = ({
   projectId,
   projectName,
-  projectMembers
+  projectMembers,
+  setDeleteModal
 }: IProjectSettingsProps) => {
   const [newProjectName, setNewProjectName] = useState(projectName);
   const [members, setMembers] = useState<IMembers[]>(projectMembers);
@@ -203,6 +205,7 @@ const ProjectSettings = ({
                   </div>
                   <button
                     type="button"
+                    onClick={() => setDeleteModal(true)}
                     className="btn w-full border border-red-600 bg-transparent text-red-600 mt-4 hover:bg-red-600 hover:text-white sm:w-40 sm:mt-0"
                   >
                     Delete project

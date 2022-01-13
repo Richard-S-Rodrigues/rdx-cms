@@ -5,6 +5,7 @@ import { api } from "../services/api";
 import Header from "../components/Header";
 import BlogPosts from "../components/BlogPosts";
 import ProjectSettings from "../components/ProjectSettings";
+import DeleteProjectModal from "../components/DeleteProjectModal";
 
 interface IProjectResponse {
   id: string;
@@ -25,7 +26,7 @@ interface IProjectMembersResponse {
 }
 
 const Project = () => {
-  const { id: projectId } = useParams();
+  const { id: projectId } = useParams() as { id: string };
   const navigate = useNavigate();
 
   const [projectName, setProjectName] = useState("");
@@ -35,6 +36,7 @@ const Project = () => {
 
   const [isPosts, setIsPosts] = useState(true);
   const [isSettings, setIsSettings] = useState(false);
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
 
   useEffect(() => {
     const getProject = async () => {
@@ -62,6 +64,9 @@ const Project = () => {
   return (
     <>
       <Header />
+      {isDeleteModal && (
+        <DeleteProjectModal setModal={setIsDeleteModal} projectId={projectId} />
+      )}
       <div className="w-full min-h-full flex p-5 my-0 ">
         <main className="block w-full space-y-8 mx-auto sm:w-4/5">
           <section className="block sm:flex sm:justify-between">
@@ -110,6 +115,7 @@ const Project = () => {
               projectId={projectId}
               projectName={projectName}
               projectMembers={projectMembers}
+              setDeleteModal={setIsDeleteModal}
             />
           )}
         </main>
