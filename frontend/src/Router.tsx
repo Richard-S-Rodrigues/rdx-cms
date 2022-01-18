@@ -11,6 +11,7 @@ import PasswordReset from "./pages/passwordReset";
 import SendPasswordResetEmail from "./pages/passwordReset/SendPasswordResetEmail";
 import MyAccount from "./pages/MyAccount";
 import Project from "./pages/Project";
+import BlogPost from "./pages/BlogPost";
 
 import {
   authenticationContext,
@@ -74,6 +75,15 @@ const Router = () => (
             // eslint-disable-next-line react/jsx-wrap-multilines
             <PrivateRoute>
               <Project />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/posts/:id"
+          element={
+            // eslint-disable-next-line react/jsx-wrap-multilines
+            <PrivateRoute>
+              <BlogPost />
             </PrivateRoute>
           }
         />
