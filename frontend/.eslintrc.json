@@ -48,7 +48,9 @@
       {
         "wrapperName": ["sanitizer"]
       }
-    ]
+    ],
+    "react/no-unstable-nested-components": "off",
+    "react/jsx-props-no-spreading": "off"
   },
   "settings": {
     "import/resolver": {
