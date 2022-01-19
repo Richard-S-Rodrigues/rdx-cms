@@ -6,12 +6,14 @@ const BlogPost = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [editorMarkdownContent, setEditorMarkdownContent] = useState("");
+  const [editorHtmlContent, setEditorHtmlContent] = useState("");
   const [isPreview, setIsPreview] = useState(false);
 
   return isPreview ? (
     <PostPreview
       title={title}
       markdown={editorMarkdownContent}
+      html={editorHtmlContent}
       setPreview={setIsPreview}
     />
   ) : (
@@ -50,7 +52,10 @@ const BlogPost = () => {
           </div>
           <div className="mt-10">
             <div className="block mb-2">Body content</div>
-            <TextEditor setEditorMarkdownContent={setEditorMarkdownContent} />
+            <TextEditor
+              setEditorMarkdownContent={setEditorMarkdownContent}
+              setEditorHtmlContent={setEditorHtmlContent}
+            />
           </div>
         </form>
       </main>

@@ -18,7 +18,7 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": ["react", "@typescript-eslint", "jam3"],
   "rules": {
     "react/function-component-definition": [
       2,
@@ -41,7 +41,14 @@
     "implicit-arrow-linebreak": "off",
     "function-paren-newline": "off",
     "no-confusing-arrow": "off",
-    "no-param-reassign": ["error", { "props": false }]
+    "no-param-reassign": ["error", { "props": false }],
+    "react/no-danger": "off",
+    "jam3/no-sanitizer-with-danger": [
+      2,
+      {
+        "wrapperName": ["sanitizer"]
+      }
+    ]
   },
   "settings": {
     "import/resolver": {

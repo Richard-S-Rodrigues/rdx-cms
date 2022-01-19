@@ -1,13 +1,23 @@
 import ReactMarkdown from "react-markdown";
+import dompurify from "dompurify";
 
 interface IPostPreviewProps {
   title: string;
   markdown: string;
+  html: string;
   setPreview: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const PostPreview = ({ title, markdown, setPreview }: IPostPreviewProps) => {
+const PostPreview = ({
+  title,
+  markdown,
+  html,
+  setPreview
+}: IPostPreviewProps) => {
   console.log(markdown);
+  console.log(html);
+  const sanitizer = dompurify.sanitize;
+
   return (
     <>
       <button
@@ -17,13 +27,13 @@ const PostPreview = ({ title, markdown, setPreview }: IPostPreviewProps) => {
       >
         Editor
       </button>
-      <div>
-        <main>
+      <div className="flex items-center justify-center mx-auto">
+        <main className="my-20">
           <section>
             <h1 className="h1">{title}</h1>
           </section>
-          <section>
-            <ReactMarkdown>{markdown}</ReactMarkdown>
+          <section className="mt-10">
+            <div dangerouslySetInnerHTML={{ __html: sanitizer(html) }} />
           </section>
         </main>
       </div>
