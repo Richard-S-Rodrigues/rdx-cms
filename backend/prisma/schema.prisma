@@ -15,6 +15,7 @@ model User {
   password   String
 
   projects           Project[]
+  blog_posts         BlogPost[]
   resetPasswordToken ResetPasswordToken?
 
   @@map("users")
@@ -38,6 +39,7 @@ model Project {
 
   creator_id String
   members    ProjectMember[]
+  blog_posts BlogPost[]
   created_at DateTime        @default(now())
 
   @@map("projects")
@@ -54,4 +56,19 @@ model ProjectMember {
   created_at DateTime @default(now())
 
   @@map("projectMembers")
+}
+
+model BlogPost {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  content     String
+  project     Project  @relation(fields: [project_id], references: [id])
+  project_id  String
+  author      User     @relation(fields: [author_id], references: [id])
+  author_id   String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now())
+
+  @@map("blogPosts")
 }

@@ -14,8 +14,10 @@ import { RemoveProjectController } from "./controllers/RemoveProjectController";
 import { ListProjectsController } from "./controllers/ListProjectsController";
 import { ListProjectByIdController } from "./controllers/ListProjectByIdController";
 import { UpdateProjectController } from "./controllers/UpdateProjectController";
+import { CreateBlogPostController } from "./controllers/CreateBlogPostController";
 
 import { auth } from "./middlewares/auth";
+import { ListBlogPostsController } from "./controllers/ListBlogPostsController";
 
 router.post("/signout", new CreateUserController().handle);
 router.post("/signin", new AuthenticateUserController().handle);
@@ -34,5 +36,16 @@ router.post("/project/delete", auth, new RemoveProjectController().handle);
 router.get("/projects", auth, new ListProjectsController().handle);
 router.get("/projects/:id", auth, new ListProjectByIdController().handle);
 router.post("/projects/:id/update", auth, new UpdateProjectController().handle);
+
+router.get(
+  "/projects/:id/blogPosts",
+  auth,
+  new ListBlogPostsController().handle
+);
+router.post(
+  "/projects/:id/createBlogPost",
+  auth,
+  new CreateBlogPostController().handle
+);
 
 export { router };
