@@ -1,36 +1,69 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { BiEdit } from "react-icons/bi";
 import { FaTrashAlt } from "react-icons/fa";
 import ReactTooltip from "react-tooltip";
+import moment from "moment";
+import { api } from "../services/api";
 
-const fakedData = [
-  {
-    id: "0",
-    title: "Post 1",
-    createdAt: "Nov 3, 2021",
-    author: "Richard Rodrigues",
-    isPublished: false
-  },
-  {
-    id: "1",
-    title: "Post 2",
-    createdAt: "Nov 3, 2021",
-    author: "Richard Rodrigues",
-    isPublished: true
-  }
-];
-const BlogPosts = () => {
-  const [checkedState, setCheckedState] = useState(
-    new Array(fakedData.length + 1).fill(false)
-  );
+interface IBlogPostsProps {
+  projectId: string;
+}
+
+interface IPostData {
+  id: string;
+  title: string;
+  description: string;
+  content: string;
+  project_id: string;
+  author_id: string;
+  is_published: boolean;
+  created_at: string;
+  updated_at: string;
+  project: {
+    id: string;
+    name: string;
+    creator_id: string;
+    created_at: string;
+  };
+  author: {
+    first_name: string;
+    last_name: string;
+    email: string;
+  };
+}
+
+const BlogPosts = ({ projectId }: IBlogPostsProps) => {
+  const [posts, setPosts] = useState([]);
+  const [checkedState, setCheckedState] = useState([] as boolean[]);
   const [isChecked, setIsChecked] = useState(false);
-  const [posts, setPosts] = useState(fakedData);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getBlogPosts = async () => {
+      try {
+        const response = await api.get(`/projects/${projectId}/blogPosts`, {
+          withCredentials: true
+        });
+
+        if (response.status === 200) {
+          setPosts(response.data);
+          setCheckedState(new Array(response.data.length + 1).fill(false));
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    getBlogPosts();
+  }, []);
 
   const checkedCount = checkedState.filter(
     (value: boolean, index: number) => value === true && index !== 0
   ).length;
 
-  const checkboxChangeHandler = (event: any, position: number) => {
+  const checkboxChangeHandler = (position: number) => {
     let updatedCheckedState: boolean[];
 
     setIsChecked(true);
@@ -53,7 +86,7 @@ const BlogPosts = () => {
   const deletePostHandler = () => {
     checkedState.forEach((item: boolean, index: number) => {
       if (item === true) {
-        const updatedData = fakedData.splice(index, 1);
+        const updatedData = posts.splice(index, 1);
         setPosts(updatedData);
         checkedState[index] = false;
       }
@@ -87,7 +120,7 @@ const BlogPosts = () => {
                   value="Title"
                   id="0"
                   checked={checkedState[0]}
-                  onChange={(event) => checkboxChangeHandler(event, 0)}
+                  onChange={() => checkboxChangeHandler(0)}
                   className="mr-1"
                 />
                 Title
@@ -98,9 +131,11 @@ const BlogPosts = () => {
             </tr>
           </thead>
           <tbody>
-            {posts.map((post, index) => {
+            {posts.map((post: IPostData, index: number) => {
               // Starts at "1", because "0" is reserved by "Title" checkbox
               const position = index + 1;
+              const updatedAt = moment(post.updated_at).format("lll");
+
               return (
                 <tr
                   key={post.id}
@@ -112,17 +147,15 @@ const BlogPosts = () => {
                       value={post.title}
                       id={post.id}
                       checked={checkedState[position]}
-                      onChange={(event) =>
-                        checkboxChangeHandler(event, position)
-                      }
+                      onChange={() => checkboxChangeHandler(position)}
                       className="mr-1"
                     />
                     {post.title}
                   </td>
-                  <td className="flex float-left w-full">{post.createdAt}</td>
-                  <td className="flex float-left w-full">{post.author}</td>
+                  <td className="flex float-left w-full">{updatedAt}</td>
+                  <td className="flex float-left w-full">{`${post.author.first_name} ${post.author.last_name}`}</td>
                   <td className="flex items-center float-left w-full">
-                    {post.isPublished ? (
+                    {post.is_published ? (
                       <div className="bg-darkerGreen text-white font-semibold w-full p-2 flex items-center justify-center">
                         PUBLISHED
                       </div>
@@ -137,6 +170,11 @@ const BlogPosts = () => {
                       data-tip="Edit"
                       data-for="tooltipEdit"
                       data-place="top"
+                      onClick={() =>
+                        navigate(
+                          `/post/?project_id=${projectId}&post_id=${post.id}`
+                        )
+                      }
                     />
                     <ReactTooltip id="tooltipEdit" />
                   </td>

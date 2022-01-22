@@ -79,7 +79,7 @@ const Router = () => (
           }
         />
         <Route
-          path="/posts/:id"
+          path="/post"
           element={
             // eslint-disable-next-line react/jsx-wrap-multilines
             <PrivateRoute>

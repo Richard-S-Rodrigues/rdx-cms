@@ -49,7 +49,6 @@ const Project = () => {
         );
 
         if (response.status === 200) {
-          console.log(response);
           setProjectName(response.data.name);
           setProjectMembers(response.data.members);
         }
@@ -106,6 +105,7 @@ const Project = () => {
             {isPosts && (
               <button
                 type="button"
+                onClick={() => navigate(`/post/?project_id=${projectId}`)}
                 className="btn w-full bg-green hover:bg-green mt-2 sm:w-40 sm:mt-0"
               >
                 + Add post
@@ -113,7 +113,7 @@ const Project = () => {
             )}
           </section>
           {!isSettings ? (
-            <BlogPosts />
+            <BlogPosts projectId={projectId} />
           ) : (
             <ProjectSettings
               projectId={projectId}

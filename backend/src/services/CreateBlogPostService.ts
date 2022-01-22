@@ -5,6 +5,7 @@ interface IData {
   title: string;
   description: string;
   content: string;
+  is_published: boolean;
   project_id: string;
   user_id: string;
 }
@@ -17,6 +18,7 @@ class CreateBlogPostService {
           title: data.title,
           description: data.description,
           content: data.content,
+          is_published: data.is_published,
           project_id: data.project_id,
           author_id: data.user_id
         }

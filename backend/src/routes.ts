@@ -15,9 +15,11 @@ import { ListProjectsController } from "./controllers/ListProjectsController";
 import { ListProjectByIdController } from "./controllers/ListProjectByIdController";
 import { UpdateProjectController } from "./controllers/UpdateProjectController";
 import { CreateBlogPostController } from "./controllers/CreateBlogPostController";
+import { UpdateBlogPostController } from "./controllers/UpdateBlogPostController";
+import { ListBlogPostsController } from "./controllers/ListBlogPostsController";
+import { ListBlogPostByIdController } from "./controllers/ListBlogPostByIdController";
 
 import { auth } from "./middlewares/auth";
-import { ListBlogPostsController } from "./controllers/ListBlogPostsController";
 
 router.post("/signout", new CreateUserController().handle);
 router.post("/signin", new AuthenticateUserController().handle);
@@ -46,6 +48,16 @@ router.post(
   "/projects/:id/createBlogPost",
   auth,
   new CreateBlogPostController().handle
+);
+router.post(
+  "/projects/:id/updateBlogPost/:post_id",
+  auth,
+  new UpdateBlogPostController().handle
+);
+router.get(
+  "/projects/:id/blogPosts/:post_id",
+  auth,
+  new ListBlogPostByIdController().handle
 );
 
 export { router };
