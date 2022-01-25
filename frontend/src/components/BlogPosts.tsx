@@ -49,7 +49,9 @@ const BlogPosts = ({ projectId }: IBlogPostsProps) => {
 
         if (response.status === 200) {
           setPosts(response.data);
-          setCheckedState(new Array(response.data.length + 1).fill(false));
+          setCheckedState(() =>
+            new Array(response.data.length + 1).fill(false)
+          );
         }
       } catch (err) {
         console.error(err);

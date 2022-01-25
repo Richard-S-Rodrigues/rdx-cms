@@ -8,6 +8,7 @@ const BlogPost = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [editorMarkdownContent, setEditorMarkdownContent] = useState("");
+  const [editorNewRawContent, setEditorNewRawContent] = useState("");
   const [isPreview, setIsPreview] = useState(false);
   const [isPostExists, setIsPostExists] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
@@ -30,18 +31,22 @@ const BlogPost = () => {
 
         if (response.status === 200) {
           setIsPostExists(true);
+
           setTitle(response.data.title);
           setDescription(response.data.description);
-          setEditorMarkdownContent(response.data.content);
+          setEditorMarkdownContent(response.data.markdown_content);
           setIsPublished(response.data.is_published);
+
+          localStorage.setItem("raw_content", response.data.raw_content);
         }
       } catch (err) {
-        console.error(err);
         console.error(err);
       }
     };
     getPost();
-  }, []);
+    console.log("test");
+    // Get post again when post is updated
+  }, [isUpdated]);
 
   const onSubmitHandler = async (event: SyntheticEvent) => {
     event.preventDefault();
@@ -62,7 +67,8 @@ const BlogPost = () => {
         {
           title,
           description,
-          content: editorMarkdownContent,
+          markdown_content: editorMarkdownContent,
+          raw_content: editorNewRawContent,
           is_published: isPublished
         },
         { withCredentials: true }
@@ -82,7 +88,8 @@ const BlogPost = () => {
         {
           title,
           description,
-          content: editorMarkdownContent,
+          markdown_content: editorMarkdownContent,
+          raw_content: editorNewRawContent,
           is_published: isPublished
         },
         { withCredentials: true }
@@ -175,7 +182,10 @@ const BlogPost = () => {
               id="title"
               name="title"
               value={title}
-              onChange={(event) => setTitle(event.target.value)}
+              onChange={(event) => {
+                setTitle(event.target.value);
+                setIsUpdated(false);
+              }}
               className="input mt-2 mb-4"
               required
             />
@@ -186,7 +196,10 @@ const BlogPost = () => {
               id="description"
               name="description"
               value={description}
-              onChange={(event) => setDescription(event.target.value)}
+              onChange={(event) => {
+                setDescription(event.target.value);
+                setIsUpdated(false);
+              }}
               className="input mt-2 h-24"
               required
             />
@@ -194,7 +207,11 @@ const BlogPost = () => {
         </div>
         <div className="mt-10 h-3/4">
           <div className="block mb-2">Body content</div>
-          <TextEditor setEditorMarkdownContent={setEditorMarkdownContent} />
+          <TextEditor
+            setEditorMarkdownContent={setEditorMarkdownContent}
+            setEditorNewRawContent={setEditorNewRawContent}
+            setIsPostUpdated={setIsUpdated}
+          />
         </div>
       </main>
     </div>
