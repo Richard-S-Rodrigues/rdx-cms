@@ -59,17 +59,18 @@ model ProjectMember {
 }
 
 model BlogPost {
-  id           String   @id @default(uuid())
-  title        String
-  description  String
-  content      String
-  project      Project  @relation(fields: [project_id], references: [id])
-  project_id   String
-  author       User     @relation(fields: [author_id], references: [id])
-  author_id    String
-  is_published Boolean  @default(false)
-  created_at   DateTime @default(now())
-  updated_at   DateTime @default(now())
+  id               String   @id @default(uuid())
+  title            String
+  description      String
+  markdown_content String
+  raw_content      String   @default("")
+  project          Project  @relation(fields: [project_id], references: [id])
+  project_id       String
+  author           User     @relation(fields: [author_id], references: [id])
+  author_id        String
+  is_published     Boolean  @default(false)
+  created_at       DateTime @default(now())
+  updated_at       DateTime @default(now())
 
   @@map("blogPosts")
 }

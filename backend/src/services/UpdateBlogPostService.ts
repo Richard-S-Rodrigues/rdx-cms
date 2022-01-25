@@ -10,7 +10,8 @@ class UpdateBlogPostService {
       data: {
         title: updated_data.title,
         description: updated_data.description,
-        content: updated_data.content,
+        markdown_content: updated_data.markdown_content,
+        raw_content: updated_data.raw_content,
         is_published: updated_data.is_published
       }
     });
