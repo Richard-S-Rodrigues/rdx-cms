@@ -1,5 +1,6 @@
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import Loading from "react-loading";
 import { api } from "../services/api";
 import PostPreview from "../components/PostPreview";
 import TextEditor from "../components/TextEditor";
@@ -8,6 +9,7 @@ const BlogPost = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [editorMarkdownContent, setEditorMarkdownContent] = useState("");
+  const [editorRawContent, setEditorRawContent] = useState("");
   const [editorNewRawContent, setEditorNewRawContent] = useState("");
   const [isPreview, setIsPreview] = useState(false);
   const [isPostExists, setIsPostExists] = useState(false);
@@ -37,19 +39,22 @@ const BlogPost = () => {
           setEditorMarkdownContent(response.data.markdown_content);
           setIsPublished(response.data.is_published);
 
-          localStorage.setItem("raw_content", response.data.raw_content);
+          setEditorRawContent(response.data.raw_content);
         }
       } catch (err) {
         console.error(err);
       }
     };
+
     getPost();
-    console.log("test");
-    // Get post again when post is updated
-  }, [isUpdated]);
+  }, []);
 
   const onSubmitHandler = async (event: SyntheticEvent) => {
     event.preventDefault();
+
+    if (!title.trim() || !description.trim()) {
+      return;
+    }
 
     if (isPostExists) {
       await updatePost();
@@ -59,8 +64,6 @@ const BlogPost = () => {
   };
 
   const createPost = async () => {
-    if (!title.trim() || !description.trim()) return;
-
     try {
       const response = await api.post(
         `/projects/${projectId}/createBlogPost`,
@@ -73,15 +76,16 @@ const BlogPost = () => {
         },
         { withCredentials: true }
       );
-      console.log(response);
+
+      if (response.status === 201) {
+        setEditorRawContent(response.data.raw_content);
+      }
     } catch (err) {
       console.error(err);
     }
   };
 
   const updatePost = async () => {
-    if (!title.trim() || !description.trim()) return;
-
     try {
       const response = await api.post(
         `/projects/${projectId}/updateBlogPost/${postId}`,
@@ -94,7 +98,10 @@ const BlogPost = () => {
         },
         { withCredentials: true }
       );
-      console.log(response);
+
+      if (response.status === 201) {
+        setEditorRawContent(response.data.raw_content);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -207,11 +214,16 @@ const BlogPost = () => {
         </div>
         <div className="mt-10 h-3/4">
           <div className="block mb-2">Body content</div>
-          <TextEditor
-            setEditorMarkdownContent={setEditorMarkdownContent}
-            setEditorNewRawContent={setEditorNewRawContent}
-            setIsPostUpdated={setIsUpdated}
-          />
+          {!editorRawContent ? (
+            <Loading />
+          ) : (
+            <TextEditor
+              setEditorMarkdownContent={setEditorMarkdownContent}
+              setEditorNewRawContent={setEditorNewRawContent}
+              setIsPostUpdated={setIsUpdated}
+              editorRawContent={editorRawContent}
+            />
+          )}
         </div>
       </main>
     </div>
